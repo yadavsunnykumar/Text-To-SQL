@@ -1,0 +1,68 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="ask" novalidate>
+  <label class="ask__label" for="question">What do you want to know?</label>
+
+  <div class="ask__box" [class.has-error]="!!questionError">
+    <textarea
+      id="question"
+      class="ask__input"
+      formControlName="question"
+      rows="2"
+      placeholder="Which customers spent the most in 2025?"
+      [attr.aria-invalid]="!!questionError"
+      aria-describedby="question-help"
+      (keydown.control.enter)="submit()"
+      (keydown.meta.enter)="submit()"
+      data-testid="question-input"
+    ></textarea>
+
+    <div class="ask__bar">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="field-model">
+        <mat-label>Model</mat-label>
+        <mat-select formControlName="provider" data-testid="provider-select">
+          @for (p of providers(); track p.name) {
+            <mat-option [value]="p.name" [disabled]="!p.configured">
+              {{ providerLabels[p.name] }}
+              <span class="option-detail">{{ p.configured ? p.model : 'No API key' }}</span>
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="field-retries">
+        <mat-label>Retries</mat-label>
+        <input matInput type="number" min="0" max="10" formControlName="maxRetries" />
+      </mat-form-field>
+
+      <span id="question-help" class="ask__hint">Ctrl or ⌘ + Enter</span>
+
+      @if (form.controls.question.value) {
+        <button mat-button type="button" (click)="clear()" [disabled]="loading()">Clear</button>
+      }
+      <button mat-flat-button type="submit" class="ask__submit" [disabled]="loading()" data-testid="ask-button">
+        @if (loading()) {
+          <mat-progress-spinner mode="indeterminate" diameter="16" class="ask__spinner" />
+        }
+        {{ loading() ? 'Running…' : 'Ask' }}
+      </button>
+    </div>
+  </div>
+
+  @if (questionError) {
+    <p class="ask__error" role="alert">{{ questionError }}</p>
+  }
+
+  @if (examples().length) {
+    <div class="examples">
+      <span class="examples__lead">Try</span>
+      <ul class="examples__list">
+        @for (example of examples(); track example) {
+          <li>
+            <button type="button" class="example-link" (click)="useExample(example)" [disabled]="loading()">
+              {{ example }}
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</form>

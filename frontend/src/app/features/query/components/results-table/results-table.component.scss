@@ -1,0 +1,82 @@
+.results__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.results__title {
+  font-size: 1rem;
+  margin: 0 auto 0 0;
+}
+
+.results__count {
+  margin-left: 6px;
+  color: var(--muted);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.results__filter {
+  width: 220px;
+  max-width: 100%;
+}
+
+.results__scroll {
+  max-height: 520px;
+  overflow: auto;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.grid {
+  width: 100%;
+  --mat-table-background-color: var(--surface);
+  --mat-table-row-item-outline-color: var(--line);
+}
+
+th.mat-mdc-header-cell {
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+td.mat-mdc-cell {
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+
+tr.mat-mdc-row:hover td {
+  background: var(--row-hover);
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  // Shrink number columns to their content so text columns get the spare width.
+  width: 1%;
+}
+
+// Numeric headers use arrowPosition="before", which lays the sort header out as
+// row-reverse. In a reversed row, flex-start is the RIGHT edge, so this keeps the
+// label flush with the right-aligned numbers below it.
+th.num ::ng-deep .mat-sort-header-container {
+  justify-content: flex-start;
+}
+
+.null-cell {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.no-match {
+  padding: 16px;
+  color: var(--muted);
+}
+
+.mat-mdc-paginator {
+  border-radius: 0 0 var(--radius) var(--radius);
+}

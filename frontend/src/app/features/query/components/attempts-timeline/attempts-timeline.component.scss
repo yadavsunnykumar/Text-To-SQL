@@ -1,0 +1,114 @@
+.attempts {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.attempts__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  // Small disclosure caret drawn with a border, rotated when open.
+  &::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid var(--muted);
+    border-bottom: 1.5px solid var(--muted);
+    transform: translateY(-2px) rotate(-45deg);
+    transition: transform 150ms ease;
+    align-self: center;
+  }
+
+  .attempts[open] > &::before {
+    transform: translateY(-3px) rotate(45deg);
+  }
+}
+
+.attempts__title {
+  font-weight: 600;
+}
+
+.attempts__desc {
+  color: var(--muted);
+}
+
+.attempts__list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 16px 16px;
+}
+
+// A vertical rule ties the attempts together as one sequence.
+.attempt {
+  position: relative;
+  padding: 0 0 18px 20px;
+  border-left: 2px solid var(--danger-soft);
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--danger);
+  }
+
+  &.ok {
+    border-left-color: var(--accent-soft);
+
+    &::before {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+  }
+}
+
+.attempt__head {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.attempt__name {
+  font-weight: 500;
+}
+
+.attempt__state {
+  color: var(--danger);
+  font-size: 0.875rem;
+
+  .ok & {
+    color: var(--accent);
+  }
+}
+
+.attempt__time {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.attempt__error {
+  margin: 8px 0 0;
+  color: var(--danger);
+  font-size: 0.875rem;
+}

@@ -1,0 +1,106 @@
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  height: 56px;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+
+// Underline tabs: the active page is marked by a bar on the header's bottom edge.
+.tab {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: var(--muted);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+
+  &:hover {
+    color: var(--ink);
+  }
+
+  &.is-active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+}
+
+.api-status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0 4px;
+
+  &:hover {
+    color: var(--ink);
+  }
+}
+
+.theme-toggle {
+  align-self: center;
+  color: var(--muted);
+
+  &:hover {
+    color: var(--ink);
+  }
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-strong);
+
+  &.online {
+    background: var(--accent);
+  }
+  &.degraded {
+    background: var(--warn-line);
+  }
+  &.offline {
+    background: var(--danger);
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar__inner {
+    gap: 12px;
+  }
+  .wordmark {
+    display: none;
+  }
+  .tab {
+    padding: 0 8px;
+  }
+  .api-status__label {
+    display: none;
+  }
+}

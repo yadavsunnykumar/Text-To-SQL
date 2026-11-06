@@ -1,0 +1,24 @@
+<details class="attempts" [open]="expanded()">
+  <summary class="attempts__summary">
+    <span class="attempts__title">Attempts</span>
+    <span class="attempts__desc" data-testid="attempts-summary">{{ summary() }}</span>
+  </summary>
+
+  <ol class="attempts__list">
+    @for (attempt of attempts(); track attempt.attempt) {
+      <li class="attempt" [class.ok]="attempt.success" data-testid="attempt">
+        <div class="attempt__head">
+          <span class="attempt__name">Attempt {{ attempt.attempt }}</span>
+          <span class="attempt__state">{{ attempt.success ? 'Worked' : 'Failed' }}</span>
+          <span class="attempt__time">{{ attempt.duration_ms | duration }}</span>
+        </div>
+        @if (attempt.sql) {
+          <app-sql-viewer [sql]="attempt.sql" [compact]="true" />
+        }
+        @if (attempt.error) {
+          <p class="attempt__error">{{ attempt.error }}</p>
+        }
+      </li>
+    }
+  </ol>
+</details>

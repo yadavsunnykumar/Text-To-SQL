@@ -1,0 +1,43 @@
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a routerLink="/" class="wordmark">Text-to-SQL Analyst</a>
+
+    <nav class="tabs" aria-label="Main">
+      @for (link of links; track link.path) {
+        <a
+          class="tab"
+          [routerLink]="link.path"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+          ariaCurrentWhenActive="page"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+
+    <button
+      type="button"
+      class="api-status"
+      [matTooltip]="statusDetail()"
+      (click)="checkHealth()"
+      data-testid="api-status"
+    >
+      <span [class]="'status-dot ' + status()" data-testid="status-dot"></span>
+      <span class="api-status__label">{{ statusLabel() }}</span>
+    </button>
+
+    <button
+      mat-icon-button
+      type="button"
+      class="theme-toggle"
+      [matTooltip]="themeToggleLabel()"
+      [attr.aria-label]="themeToggleLabel()"
+      [attr.aria-pressed]="theme.isDark()"
+      (click)="theme.toggle()"
+      data-testid="theme-toggle"
+    >
+      <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+  </div>
+</header>

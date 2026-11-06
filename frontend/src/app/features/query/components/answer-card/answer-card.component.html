@@ -1,0 +1,37 @@
+@let res = response();
+<section class="answer" [class.failed]="!res.success" data-testid="answer-card" aria-label="Answer">
+  <p class="answer__question">{{ res.question }}</p>
+
+  @if (res.success) {
+    <p class="answer__text" data-testid="answer-text">
+      {{ res.answer || 'The query ran successfully. The rows are below.' }}
+    </p>
+    @if (res.explanation) {
+      <p class="answer__how">{{ res.explanation }}</p>
+    }
+  } @else {
+    <p class="answer__text" data-testid="error-text">{{ res.error }}</p>
+    <p class="answer__how">Try naming the table or column you mean, or ask the question a different way.</p>
+  }
+
+  <dl class="facts">
+    @if (res.success) {
+      <div class="facts__item">
+        <dt>Rows</dt>
+        <dd data-testid="fact-rows">{{ res.row_count }}{{ res.truncated ? ' (limit reached)' : '' }}</dd>
+      </div>
+    }
+    <div class="facts__item">
+      <dt>Attempts</dt>
+      <dd data-testid="fact-attempts">{{ res.attempts.length }}</dd>
+    </div>
+    <div class="facts__item">
+      <dt>Time</dt>
+      <dd data-testid="fact-time">{{ res.execution_time_ms | duration }}</dd>
+    </div>
+    <div class="facts__item">
+      <dt>Model</dt>
+      <dd>{{ res.model }}</dd>
+    </div>
+  </dl>
+</section>

@@ -1,0 +1,65 @@
+@let error = state.error();
+@let res = state.response();
+
+@if (noProviderConfigured()) {
+  <div class="notice" role="alert" data-testid="no-provider-alert">
+    <strong>No model is set up yet.</strong>
+    Add <code>GROQ_API_KEY</code> or <code>OPENAI_API_KEY</code> to <code>backend/.env</code>, then restart the API.
+  </div>
+}
+
+<app-query-input
+  [providers]="providers()"
+  [defaultProvider]="defaultProvider()"
+  [loading]="state.loading()"
+  [examples]="examples"
+  [initialQuestion]="initialQuestion()"
+  (submitted)="onSubmit($event)"
+/>
+
+<section class="outcome" aria-live="polite">
+  @if (state.loading()) {
+    <div class="working" data-testid="loading">
+      <p class="working__text">Writing SQL for “{{ state.lastQuestion() }}”</p>
+      <mat-progress-bar mode="indeterminate" />
+    </div>
+  } @else if (error) {
+    <div class="notice notice--error" role="alert">
+      <strong>The question didn't reach the database.</strong>
+      {{ error }}
+    </div>
+  } @else if (res) {
+    <app-answer-card [response]="res" />
+
+    @if (res.success) {
+      @if (state.hasRows()) {
+        <app-results-table
+          [columns]="res.columns"
+          [rows]="res.rows"
+          [truncated]="res.truncated"
+          exportName="text-to-sql-results"
+        />
+      } @else {
+        <p class="no-rows panel">The query ran but matched no rows.</p>
+      }
+    }
+
+    <div class="proof">
+      @if (res.sql) {
+        <app-sql-viewer [sql]="res.sql" [title]="res.success ? 'Query used' : 'Last query tried'" />
+      }
+      <app-attempts-timeline [attempts]="res.attempts" />
+    </div>
+  } @else {
+    <div class="intro">
+      <p>
+        The answer appears here, with the rows behind it and the exact SQL that produced them. If a query fails,
+        the error goes back to the model to fix, and every attempt is listed.
+      </p>
+      <p class="muted">
+        The sample database holds customers, products, categories, orders and order items from 2024 to 2026.
+        See the full layout on the <a routerLink="/schema">Schema</a> page.
+      </p>
+    </div>
+  }
+</section>

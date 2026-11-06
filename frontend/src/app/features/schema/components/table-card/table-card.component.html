@@ -1,0 +1,39 @@
+@let t = table();
+<article class="table-detail panel">
+  <header class="table-detail__head">
+    <div>
+      <h2 class="table-detail__name mono" data-testid="table-name">{{ t.name }}</h2>
+      <p class="table-detail__summary muted">{{ summary() }}</p>
+    </div>
+    <button mat-stroked-button type="button" (click)="ask($event)">Ask about this table</button>
+  </header>
+
+  <table class="columns">
+    <thead>
+      <tr>
+        <th scope="col">Column</th>
+        <th scope="col">Type</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (col of t.columns; track col.name) {
+        <tr data-testid="column-row">
+          <td class="mono">{{ col.name }}</td>
+          <td class="columns__type">{{ col.type }}</td>
+          <td class="columns__notes">
+            @if (col.primary_key) {
+              <span class="tag tag--key" data-testid="pk-badge">Primary key</span>
+            }
+            @if (fkMap().get(col.name); as ref) {
+              <span class="tag" data-testid="fk-badge">References <span class="mono">{{ ref }}</span></span>
+            }
+            @if (!col.nullable && !col.primary_key) {
+              <span class="tag tag--plain">Required</span>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</article>

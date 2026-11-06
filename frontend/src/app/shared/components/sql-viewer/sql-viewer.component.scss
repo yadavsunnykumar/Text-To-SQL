@@ -1,0 +1,40 @@
+.sql {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.sql__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px 6px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sql__title {
+  font-weight: 600;
+}
+
+pre {
+  margin: 0;
+  padding: 14px 16px 16px;
+  background: var(--code-bg);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.sql--compact {
+  border-radius: var(--radius-sm);
+
+  pre {
+    padding: 10px 12px;
+    font-size: 0.78rem;
+  }
+}

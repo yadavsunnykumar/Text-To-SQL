@@ -1,0 +1,9 @@
+<figure class="sql" [class.sql--compact]="compact()">
+  @if (!compact()) {
+    <figcaption class="sql__head">
+      <span class="sql__title">{{ title() }}</span>
+      <button mat-button type="button" class="copy-btn" (click)="copy()">Copy SQL</button>
+    </figcaption>
+  }
+  <pre class="sql-code"><code [innerHTML]="sql() | sqlHighlight"></code></pre>
+</figure>

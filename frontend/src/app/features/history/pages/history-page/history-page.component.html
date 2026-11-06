@@ -1,0 +1,53 @@
+<header class="page-head">
+  <div>
+    <h1 class="page-title">History</h1>
+    <p class="muted m-0">Your last 50 questions, saved in this browser.</p>
+  </div>
+  @if (history.entries().length) {
+    <button mat-stroked-button type="button" (click)="clearAll()" data-testid="clear-history">Clear history</button>
+  }
+</header>
+
+@if (history.entries().length) {
+  <div class="panel history-wrap">
+    <table class="history">
+      <thead>
+        <tr>
+          <th scope="col">Question</th>
+          <th scope="col">Result</th>
+          <th scope="col">Asked</th>
+          <th scope="col"><span class="visually-hidden">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entry of history.entries(); track entry.id) {
+          <tr data-testid="history-item">
+            <td class="history__question">{{ entry.question }}</td>
+            <td>
+              <span class="result" [class.ok]="entry.success">
+                {{ entry.success ? entry.rowCount + (entry.rowCount === 1 ? ' row' : ' rows') : 'Failed' }}
+              </span>
+            </td>
+            <td class="history__when">{{ entry.createdAt | date: 'd MMM, HH:mm' }}</td>
+            <td class="history__actions">
+              <button mat-button type="button" (click)="rerun(entry)">Ask again</button>
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Remove from history"
+                aria-label="Remove from history"
+                (click)="remove(entry)"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <app-empty-state title="No questions yet" message="Questions you ask are saved here so you can run them again.">
+    <a mat-flat-button routerLink="/">Ask a question</a>
+  </app-empty-state>
+}

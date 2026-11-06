@@ -1,0 +1,60 @@
+<header class="page-head">
+  <div>
+    <h1 class="page-title">Schema</h1>
+    @if (schema()) {
+      <p class="muted m-0" data-testid="schema-summary">{{ summary() }}</p>
+    }
+  </div>
+  <button mat-stroked-button type="button" (click)="load(true)" [disabled]="loading()">Reload schema</button>
+</header>
+
+@if (loading()) {
+  <mat-progress-bar mode="indeterminate" class="mb-3" />
+}
+
+@if (error(); as err) {
+  <app-empty-state title="Couldn't load the schema" [message]="err">
+    <button mat-flat-button type="button" (click)="load(true)">Try again</button>
+  </app-empty-state>
+} @else if (schema()) {
+  <div class="schema">
+    <aside class="schema__index panel" aria-label="Tables">
+      <label class="visually-hidden" for="schema-filter">Find a table or column</label>
+      <input
+        id="schema-filter"
+        class="schema__search"
+        type="search"
+        placeholder="Find a table or column"
+        (input)="onFilter($event)"
+        data-testid="schema-filter"
+      />
+      <ul class="schema__list">
+        @for (table of filteredTables(); track table.name) {
+          <li>
+            <button
+              type="button"
+              class="index-item"
+              [class.is-active]="selected()?.name === table.name"
+              [attr.aria-current]="selected()?.name === table.name ? 'true' : null"
+              (click)="select(table.name)"
+              data-testid="table-index-item"
+            >
+              <span class="mono">{{ table.name }}</span>
+              @if (table.row_count !== null) {
+                <span class="index-item__count">{{ table.row_count }}</span>
+              }
+            </button>
+          </li>
+        } @empty {
+          <li class="schema__none">No table or column matches “{{ filter() }}”.</li>
+        }
+      </ul>
+    </aside>
+
+    <section class="schema__detail">
+      @if (selected(); as table) {
+        <app-table-card [table]="table" (askAbout)="askAbout($event)" />
+      }
+    </section>
+  </div>
+}
