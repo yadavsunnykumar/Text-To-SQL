@@ -1,0 +1,36 @@
+# ==========================================================================
+# Text-to-SQL Analyst: one .gitignore for the whole repository
+# ==========================================================================
+
+# ---- OS / editors ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ---- Secrets -------------------------------------------------------------------
+# Real API keys live in .env; only .env.example is committed.
+.env
+.env.*
+!.env.example
+
+# ---- Backend (Python / FastAPI) ---------------------------------------------------
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+backend/data/*.db
+
+# ---- Frontend (Angular) ------------------------------------------------------------
+node_modules/
+frontend/dist/
+frontend/out-tsc/
+frontend/coverage/
+frontend/.angular/
+.sass-cache/
+npm-debug.log*
+yarn-error.log*
